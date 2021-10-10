@@ -6,7 +6,7 @@
 
     <groupId>ru.vzotov</groupId>
     <artifactId>gov-model</artifactId>
-    <version>1.3</version>
+    <version>1.4-SNAPSHOT</version>
     <description>
         Model of shared objects that are regulated by government.
     </description>
