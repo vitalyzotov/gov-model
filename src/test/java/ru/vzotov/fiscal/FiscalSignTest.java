@@ -1,25 +1,22 @@
 package ru.vzotov.fiscal;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.catchThrowable;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 public class FiscalSignTest {
 
     @Test
     public void testConstructor() {
-        Throwable thrown = catchThrowable(() -> {
-            new FiscalSign(null);
-        });
-        assertThat(thrown)
+        assertThatThrownBy(() -> new FiscalSign(null))
                 .as("Should not accept null arguments")
-                .isInstanceOf(IllegalArgumentException.class);
+                .isInstanceOf(NullPointerException.class);
 
-        FiscalSign fiscalSign = new FiscalSign("0396771107");
+        final FiscalSign fiscalSign = new FiscalSign("0396771107");
         assertThat(fiscalSign.value()).isEqualTo(396771107L);
 
-        FiscalSign that = new FiscalSign(fiscalSign.value());
+        final FiscalSign that = new FiscalSign(fiscalSign.value());
         assertThat(fiscalSign).isEqualTo(that);
     }
 }
