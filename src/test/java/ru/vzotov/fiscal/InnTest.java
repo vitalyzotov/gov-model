@@ -1,14 +1,10 @@
 package ru.vzotov.fiscal;
 
-import org.junit.Assert;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.junit.runners.JUnit4;
+import org.junit.jupiter.api.Test;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.catchThrowable;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
-@RunWith(JUnit4.class)
 public class InnTest {
 
     private static final long INN10_L = 2310031475L;
@@ -19,14 +15,14 @@ public class InnTest {
 
     @Test
     public void value10digits() {
-        Assert.assertEquals(INN10_S, new Inn(INN10_L).value());
-        Assert.assertEquals(INN10_S, new Inn(INN10_S).value());
+        assertThat(new Inn(INN10_L).value()).isEqualTo(INN10_S);
+        assertThat(new Inn(INN10_S).value()).isEqualTo(INN10_S);
     }
 
     @Test
     public void value12digits() {
-        Assert.assertEquals(INN12_S, new Inn(INN12_L).value());
-        Assert.assertEquals(INN12_S, new Inn(INN12_S).value());
+        assertThat(new Inn(INN12_L).value()).isEqualTo(INN12_S);
+        assertThat(new Inn(INN12_S).value()).isEqualTo(INN12_S);
     }
 
     @Test
@@ -37,40 +33,23 @@ public class InnTest {
 
     @Test
     public void testConstructor() {
-        Throwable thrown;
-
-        thrown = catchThrowable(() -> {
-            new Inn(null);
-        });
-        assertThat(thrown)
+        assertThatThrownBy(() -> new Inn(null))
                 .as("Should not accept null constructor arguments")
-                .isInstanceOf(IllegalArgumentException.class);
+                .isInstanceOf(NullPointerException.class);
 
-        thrown = catchThrowable(() -> {
-            new Inn("12345678901234");
-        });
-        assertThat(thrown)
+        assertThatThrownBy(() -> new Inn("12345678901234"))
                 .as("Should not accept too long arguments")
                 .isInstanceOf(IllegalArgumentException.class);
 
-        thrown = catchThrowable(() -> {
-            new Inn("12345");
-        });
-        assertThat(thrown)
+        assertThatThrownBy(() -> new Inn("12345"))
                 .as("Should not accept too short arguments")
                 .isInstanceOf(IllegalArgumentException.class);
 
-        thrown = catchThrowable(() -> {
-            new Inn("645393065233");
-        });
-        assertThat(thrown)
+        assertThatThrownBy(() -> new Inn("645393065233"))
                 .as("Should not accept incorrect arguments")
                 .isInstanceOf(IllegalArgumentException.class);
 
-        thrown = catchThrowable(() -> {
-            new Inn(-64539306523L);
-        });
-        assertThat(thrown)
+        assertThatThrownBy(() -> new Inn(-64539306523L))
                 .as("Should not accept negative arguments")
                 .isInstanceOf(IllegalArgumentException.class);
     }

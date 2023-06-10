@@ -1,7 +1,7 @@
 package ru.vzotov.fiscal;
 
+import org.apache.commons.lang3.Validate;
 import ru.vzotov.ddd.shared.ValueObject;
-import org.apache.commons.lang.Validate;
 
 import java.util.Objects;
 
@@ -27,7 +27,6 @@ import java.util.Objects;
  * ИНН иностранного юридического лица с 1 января 2005 года всегда начинается с цифр «9909»,
  * следующие 5 цифр соответствуют Коду иностранной организации, последняя — контрольная цифра.
  */
-@SuppressWarnings({"WeakerAccess", "unused"})
 public class Inn implements ValueObject<Inn> {
 
     private String value;
@@ -56,20 +55,18 @@ public class Inn implements ValueObject<Inn> {
 
         switch (length) {
             // Для 12-значного ИНН, присваиваемого физическому лицу, контрольными являются последние две цифры
-            case 12:
+            case 12 -> {
                 final long n11 = calculateN11(v);
                 final long n12 = calculateN12(v);
                 Validate.isTrue((n11 * 10 + n12) == v % 100, "invalid checksum of 12-digit inn");
-                break;
+            }
 
             // Для 10-значного ИНН, присваиваемого юридическому лицу, контрольной является последняя, десятая цифра
-            case 10:
+            case 10 -> {
                 long n10 = calculateN10(v);
                 Validate.isTrue(n10 == v % 10, "invalid checksum of 10-digit inn");
-                break;
-
-            default:
-                throw new IllegalArgumentException("invalid inn length");
+            }
+            default -> throw new IllegalArgumentException("invalid inn length");
         }
     }
 

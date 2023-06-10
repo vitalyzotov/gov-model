@@ -1,7 +1,7 @@
 package ru.vzotov.fiscal;
 
+import org.apache.commons.lang3.Validate;
 import ru.vzotov.ddd.shared.ValueObject;
-import org.apache.commons.lang.Validate;
 
 import java.util.Objects;
 
@@ -27,7 +27,6 @@ import java.util.Objects;
  * </p>
  * В массиве из 6 байт на печать выводятся байты 2-5, которые интерпретируются, как UInt32, big endian
  */
-@SuppressWarnings({"WeakerAccess", "unused"})
 public class FiscalSign implements ValueObject<FiscalSign> {
 
     private long value;
